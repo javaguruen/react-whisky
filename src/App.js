@@ -50,7 +50,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, burn <code>src/App.js</code> and save to reload.
         </p>
-        <ul>
+        <ul className="list">
         {this.state.whiskies}
         </ul>
       </div>
