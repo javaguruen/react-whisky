@@ -11,19 +11,34 @@ const WhiskyList = ({whiskies}) => (
           return <li key={index}>{name.name}</li>;
         })}
     </ul>
-  </div>    
-)
+  </div>    )
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      whiskies: [ 
-        {"name" : "Ardbeg 10"}, 
-        {"name" : "Benriach"} 
-        ]
+      whiskies: []
     };
   }
+ componentDidMount() {
+ var proxyUrl = 'https://cors-anywhere.herokuapp.com/',
+     targetUrl = 'http://polet.herokuapp.com/api/v1/products'
+
+    fetch(proxyUrl + targetUrl)
+    .then( results => {
+        let something =results.json();
+        console.log(something);
+        return something;
+    }).then ( data => {
+        let whiskies = data.map((whisky) => {
+            return (
+                <li key={whisky.id} >{whisky.varenavn} </li>
+            )
+        })
+        this.setState({'whiskies': whiskies});
+        console.log("state", this.state.whiskies);
+    })
+ }
 
   render() {
     return (
@@ -35,7 +50,9 @@ class App extends Component {
         <p className="App-intro">
           To get started, burn <code>src/App.js</code> and save to reload.
         </p>
-       <WhiskyList whiskies = {this.state.whiskies}/>
+        <ul>
+        {this.state.whiskies}
+        </ul>
       </div>
     );
   }
